@@ -62,7 +62,7 @@
     \end{center}
   }%
   \captionof{figure}{#3}\label{bukti:#1}
-  \medskip\textbf{Penjelasan.} #4\par
+  \medskip{\raggedright\textbf{Penjelasan.} #4\par}
 }
 \begin{document}
 \begin{center}
@@ -227,9 +227,9 @@ nyata memerlukan integration test; rollback SQLite tidak dapat menarik kembali
 email yang sudah dikirim.
 
 \subsection{Dokumentasi dan reproduksi}
-Gambar 1--8 membuktikan delapan fungsi test, termasuk BVA dan dua test negatif.
-Gambar 9 menunjukkan fixture dengan cleanup, Gambar 10 mock, dan Gambar 11
-hasil eksekusi beserta coverage. Setelah menyimpan PNG di \texttt{images/}, jalankan:
+Seluruh gambar adalah hasil eksekusi terminal. Gambar 1--8 menampilkan hasil
+delapan fungsi test, termasuk BVA dan dua test negatif; Gambar 9 setup/teardown
+fixture; Gambar 10 test mock; Gambar 11 coverage. Simpan PNG di \texttt{images/}, lalu:
 \begin{lstlisting}
 powershell -ExecutionPolicy Bypass -File scripts\kompilasi_laporan.ps1
 \end{lstlisting}
@@ -242,45 +242,47 @@ Materi kuliah \textit{Sesi 9 - Unit Testing (PyTest)}, bagian Tugas Sesi 9, hlm.
 \href{https://pytest-cov.readthedocs.io/en/latest/reporting.html}{dokumentasi pytest-cov};
 \href{https://docs.python.org/3/library/unittest.mock.html}{dokumentasi unittest.mock}.}
 
-\bukti{01}{01-test-bva-denda.png}{Test 1: parametrize BVA denda}
-{Test menggunakan data 0, 1, 6, 7, 8, dan 9 hari untuk memeriksa batas bawah serta
-perubahan tarif. Test ini termasuk dalam delapan test dan sekaligus memenuhi syarat BVA.}
+\bukti{01}{01-test-bva-denda.png}{Hasil test 1: BVA denda}
+{Enam kasus parameter ditampilkan dengan status \texttt{PASSED} dan ringkasan
+\texttt{6 passed}. Kasus memeriksa denda pada 0, 1, 6, 7, 8, dan 9 hari.}
 
-\bukti{02}{02-test-batas-anggota.png}{Test 2: batas anggota valid}
-{Test memeriksa batas peminjaman mahasiswa, dosen, dan umum dengan expected value
-3, 5, dan 2. Tiga kombinasi dijalankan melalui parametrization.}
+\bukti{02}{02-test-batas-anggota.png}{Hasil test 2: batas anggota valid}
+{Output menampilkan tiga kasus \texttt{PASSED} untuk mahasiswa, dosen, dan umum,
+serta ringkasan \texttt{3 passed}. Expected value batas masing-masing adalah 3, 5, dan 2.}
 
-\bukti{03}{03-test-pinjam-sukses.png}{Test 3: peminjaman berhasil}
-{Test memeriksa pesan hasil, stok yang berkurang, dan satu panggilan mock email
-dengan alamat serta isi pesan yang tepat. Data meliputi batas pinjaman dikurangi satu.}
+\bukti{03}{03-test-pinjam-sukses.png}{Hasil test 3: peminjaman berhasil}
+{Enam kasus peminjaman di bawah batas dinyatakan \texttt{PASSED}. Keberhasilan
+berarti assertion hasil, perubahan stok, dan interaksi mock email semuanya terpenuhi.}
 
-\bukti{04}{04-test-negatif-hari.png}{Test 4: hari negatif ditolak}
-{Test negatif pertama memakai \texttt{pytest.raises(ValueError)} untuk hari -1 dan -7,
-serta memeriksa pesan exception. Skenario negatif tetap dinyatakan lulus bila penolakan benar.}
+\bukti{04}{04-test-negatif-hari.png}{Hasil test 4: hari negatif}
+{Ringkasan \texttt{2 passed} membuktikan kedua nilai negatif ditolak sesuai
+\texttt{pytest.raises(ValueError)}. Test negatif tetap lulus ketika exception sesuai harapan.}
 
-\bukti{05}{05-test-negatif-anggota.png}{Test 5: anggota tidak dikenal}
-{Test negatif kedua memeriksa \texttt{ValueError} untuk anggota alumni dan string
-kosong. Syarat minimal dua test raises telah dipenuhi oleh Gambar 4 dan 5.}
+\bukti{05}{05-test-negatif-anggota.png}{Hasil test 5: anggota tidak dikenal}
+{Dua kasus untuk alumni dan string kosong menghasilkan \texttt{2 passed}.
+Test ini dan Gambar 4 membuktikan dua fungsi test negatif yang berbeda.}
 
-\bukti{06}{06-test-negatif-jumlah.png}{Test 6: jumlah pinjaman negatif}
-{Jumlah pinjaman negatif ditolak. Assertion memeriksa jenis dan pesan exception,
-stok yang tetap, serta mock email yang tidak dipanggil.}
+\bukti{06}{06-test-negatif-jumlah.png}{Hasil test 6: jumlah pinjaman negatif}
+{Output \texttt{2 passed} menunjukkan penolakan jumlah negatif sesuai harapan.
+Assertion juga memastikan stok tetap dan mock email tidak dipanggil.}
 
-\bukti{07}{07-test-batas-pinjaman.png}{Test 7: batas peminjaman tercapai}
-{Test menolak pinjaman tepat pada batas dan satu di atas batas untuk semua jenis
-anggota. Stok tetap tersedia dan layanan email tidak dipanggil.}
+\bukti{07}{07-test-batas-pinjaman.png}{Hasil test 7: batas peminjaman}
+{Enam kasus pada batas dan di atas batas dinyatakan \texttt{PASSED}. Test memeriksa
+penolakan serta tidak adanya perubahan stok dan panggilan email.}
 
-\bukti{08}{08-test-buku-tidak-tersedia.png}{Test 8: buku tidak tersedia}
-{Stok nol dan kode buku yang tidak ditemukan sama-sama menghasilkan penolakan.
-Test memeriksa exception, stok yang tidak berubah, dan tidak adanya panggilan email.}
+\bukti{08}{08-test-buku-tidak-tersedia.png}{Hasil test 8: buku tidak tersedia}
+{Dua kasus \texttt{PASSED} mencakup stok nol dan kode buku yang tidak ditemukan.
+Exception yang diharapkan terjadi dan assertion state serta interaksi terpenuhi.}
 
-\bukti{09}{09-fixture-yield-cleanup.png}{Fixture yield dan cleanup}
-{Fixture menyiapkan katalog terisolasi, melakukan commit data awal sebelum
-\texttt{yield}, dan menutup koneksi lewat \texttt{finally} setelah test selesai.}
+\bukti{09}{09-fixture-yield-cleanup.png}{Hasil setup dan teardown fixture}
+{Opsi \texttt{--setup-show} menampilkan \texttt{SETUP} dan \texttt{TEARDOWN}
+fixture katalog, beserta satu test lulus. Implementasi cleanup setelah \texttt{yield}
+menutup koneksi database di dalam blok \texttt{finally}.}
 
-\bukti{10}{10-mock-gagal-timeout.png}{Mock email gagal dan timeout}
-{\texttt{return\_value=False} dan \texttt{side\_effect=TimeoutError} mengganti
-respons layanan email. Test memeriksa rollback stok dan argumen satu panggilan mock.}
+\bukti{10}{10-mock-gagal-timeout.png}{Hasil test mock email}
+{Dua test mock kegagalan email dan timeout menghasilkan \texttt{2 passed}.
+Status ini berarti assertion rollback dan verifikasi panggilan mock terpenuhi;
+output normal PyTest tidak mencetak argumen mock secara otomatis.}
 
 \bukti{11}{11-hasil-test-coverage.png}{Hasil test dan branch coverage}
 {Output eksekusi menunjukkan 36 kasus lulus, 36 statement dan 20 cabang tercakup,

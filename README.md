@@ -91,10 +91,11 @@ workflow repo. Hasil eksekusi lokal dan batas pengujian dibahas di laporan.
 
 Ikuti [panduan 11 screenshot](laporan/PANDUAN_SCREENSHOT.md). Simpan gambar asli
 di `laporan/latex/images/` dengan nama yang tercantum pada panduan.
-Urutannya: 8 gambar fungsi test (termasuk BVA dan minimal 2 test negatif),
-1 gambar fixture dengan cleanup `yield`, 1 gambar mock, dan 1 gambar hasil
-eksekusi beserta coverage. Syarat pengujian dapat saling mencakup: test BVA dan
-test negatif termasuk dalam minimal 8 test.
+Semua screenshot diambil dari hasil eksekusi di terminal: 8 hasil fungsi test
+(termasuk BVA dan minimal 2 test negatif), 1 hasil setup/teardown fixture,
+1 hasil pengujian mock, dan 1 hasil suite lengkap beserta coverage.
+Panduan menyediakan perintah untuk setiap gambar. Test BVA dan test negatif
+termasuk dalam minimal 8 test.
 [Sumber LaTeX](laporan/latex/main.tex) menggabungkan analisis dan sebelas gambar.
 PDF draf menampilkan penanda DRAF selama gambar belum lengkap.
 
