@@ -1,0 +1,289 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=2.3cm]{geometry}
+\usepackage[table]{xcolor}
+\usepackage{booktabs,tabularx,array}
+\usepackage{enumitem}
+\usepackage{graphicx,caption}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage[hidelinks]{hyperref}
+\definecolor{navy}{HTML}{15344B}
+\definecolor{lightblue}{HTML}{EDF3F7}
+\definecolor{muted}{HTML}{536370}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\setlength{\headheight}{15pt}
+\renewcommand{\arraystretch}{1.2}
+\setlist{nosep,leftmargin=*}
+\emergencystretch=2em
+\captionsetup{font=small,labelfont=bf}
+\renewcommand{\figurename}{Gambar}
+\lstset{basicstyle=\ttfamily\footnotesize,breaklines=true,columns=fullflexible,
+  frame=single,backgroundcolor=\color{lightblue},showstringspaces=false}
+\newcounter{buktitersedia}
+\newcommand{\cekgambar}[1]{\IfFileExists{images/#1}{\stepcounter{buktitersedia}}{}}
+\cekgambar{01-struktur.png}
+\cekgambar{02-fungsi-denda-batas.png}
+\cekgambar{03-fungsi-pinjam.png}
+\cekgambar{04-fixture-cleanup.png}
+\cekgambar{05-parametrize-bva.png}
+\cekgambar{06-test-negatif.png}
+\cekgambar{07-mock-email.png}
+\cekgambar{08-mock-gagal-timeout.png}
+\cekgambar{09-hasil-pytest.png}
+\cekgambar{10-coverage-terminal.png}
+\cekgambar{11-coverage-html.png}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{muted}Software Testing | Sesi 9}
+\fancyhead[R]{\small\color{muted}\ifnum\value{buktitersedia}<11 DRAF: \arabic{buktitersedia}/11 gambar\else PyTest\fi}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+\newcommand{\bukti}[4]{%
+  \clearpage
+  {\Large\bfseries\color{navy}Bukti #1: #3}\par\medskip
+  \IfFileExists{images/#2}{%
+    \begin{center}
+    \includegraphics[width=\linewidth,height=0.72\textheight,keepaspectratio]{images/#2}
+    \end{center}
+  }{%
+    \begin{center}
+    \fcolorbox{muted}{lightblue}{%
+      \parbox[c][7cm][c]{0.90\linewidth}{\centering
+        \textbf{SCREENSHOT ASLI BELUM DITAMBAHKAN}\par\medskip
+        Simpan hasil screenshot manual dengan nama:\par\medskip
+        {\ttfamily\small\detokenize{#2}}\par\medskip
+        di folder \texttt{images/}, lalu kompilasi ulang.\par
+        \textit{Kotak ini adalah penanda draf, bukan bukti pengujian.}
+      }}
+    \end{center}
+  }%
+  \captionof{figure}{#3}\label{bukti:#1}
+  \medskip\textbf{Penjelasan.} #4\par
+}
+\begin{document}
+\begin{center}
+{\LARGE\bfseries\color{navy}Laporan Tugas Sesi 9}\par
+{\large Unit Testing dengan PyTest}\par
+{\normalsize Studi kasus: layanan peminjaman buku perpustakaan}
+\end{center}
+\begin{tabularx}{\linewidth}{@{}p{3.2cm}Y@{}}
+\textbf{Nama / NRP} & Bambang Herlambang / 5803024019\\
+\textbf{Mata kuliah} & Software Testing\\
+\textbf{Institusi} & Universitas Katolik Widya Mandala Surabaya\\
+\textbf{Dosen} & Philipus Suryo Subandoro\\
+\textbf{Tanggal uji} & 26 Oktober 2026\\
+\textbf{Repositori} & \href{https://github.com/Bambang-code/software-testing-sesi9-pytest}{\texttt{Bambang-code/software-testing-sesi9-pytest}}\\
+\end{tabularx}
+\ifnum\value{buktitersedia}<11
+\medskip
+\colorbox{lightblue}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{%
+\textbf{Draf dokumentasi.} Tersedia \arabic{buktitersedia} dari 11 screenshot.
+Hasil test dan analisis sudah diisi dari eksekusi lokal; lengkapi screenshot asli
+sebelum mengumpulkan laporan.}}
+\fi
+
+\section{Tujuan dan aturan bisnis}
+Pengujian memastikan logika bersyarat bekerja pada nilai normal, batas, dan
+skenario negatif. Proyek menggunakan Python, PyTest, fixture dengan cleanup,
+mock email, serta statement dan branch coverage.
+
+\begin{tabularx}{\linewidth}{@{}p{4.1cm}Y@{}}
+\toprule
+\rowcolor{lightblue}\textbf{Fungsi bersyarat} & \textbf{Aturan}\\
+\midrule
+\texttt{hitung\_denda} & Hari 1--7: Rp2.000/hari. Hari berikutnya: Rp5.000/hari tambahan. Hari 0: Rp0. Hari negatif ditolak.\\
+\texttt{batas\_peminjaman} & Mahasiswa: 3 buku; dosen: 5; umum: 2. Jenis anggota lain ditolak.\\
+\texttt{pinjam\_buku} & Jumlah pinjaman harus nonnegatif dan di bawah batas. Email diisi dan stok tersedia. Stok berkurang satu saat berhasil; email gagal atau timeout memulihkan stok.\\
+\bottomrule
+\end{tabularx}
+
+Helper \texttt{buat\_katalog} membuat SQLite dalam memori. Hari dan jumlah pinjaman
+berupa bilangan bulat; jenis anggota memakai huruf kecil. Jumlah pinjaman aktif
+disediakan oleh pemanggil. Validasi email pada modul ini sebatas tidak kosong.
+
+\section{Pemenuhan ketentuan tugas}
+\begin{tabularx}{\linewidth}{@{}p{5.4cm}Y@{}}
+\toprule
+\rowcolor{lightblue}\textbf{Ketentuan} & \textbf{Bukti implementasi}\\
+\midrule
+Minimal 3 fungsi bersyarat & Tiga fungsi pada Bagian 1.\\
+Minimal 8 test & 14 fungsi test, 36 kasus setelah parametrization.\\
+Minimal 1 parametrize BVA & Nilai batas denda dan batas pinjaman setiap anggota.\\
+Minimal 2 test raises & Hari negatif, jenis salah, jumlah negatif, batas pinjaman, dan kegagalan lain.\\
+Fixture yield dan cleanup & Katalog baru setiap test; koneksi ditutup dalam \texttt{finally}.\\
+Mock dependensi & Pengirim email diganti \texttt{unittest.mock.Mock}.\\
+Coverage dan analisis cabang & 36 statement dan 20 cabang tercakup; hasil pada Bagian 4.\\
+\bottomrule
+\end{tabularx}
+
+\clearpage
+\section{Rancangan pengujian}
+\subsection{Boundary Value Analysis}
+Expected value ditulis eksplisit agar test tidak menghitung ulang rumus
+implementasi. Nilai batas berikut digunakan pada parametrization.
+
+\begin{tabularx}{\linewidth}{@{}p{3.5cm}p{4.1cm}Y@{}}
+\toprule
+\rowcolor{lightblue}\textbf{Area} & \textbf{Input} & \textbf{Hasil diharapkan}\\
+\midrule
+Batas bawah hari & $-1$, 0, 1 & ValueError; Rp0; Rp2.000\\
+Perubahan tarif & 6, 7, 8 hari & Rp12.000; Rp14.000; Rp19.000\\
+Tarif lanjutan & 9 hari & Rp24.000\\
+Batas mahasiswa & 2, 3, 4 pinjaman & Sukses; ditolak; ditolak\\
+Batas dosen & 4, 5, 6 pinjaman & Sukses; ditolak; ditolak\\
+Batas umum & 1, 2, 3 pinjaman & Sukses; ditolak; ditolak\\
+Stok terakhir & 1 lalu 0 & Sukses; berikutnya ditolak\\
+\bottomrule
+\end{tabularx}
+
+\subsection{Daftar kelompok test}
+\begin{tabularx}{\linewidth}{@{}Yrr@{}}
+\toprule
+\rowcolor{lightblue}\textbf{Kelompok pengujian} & \textbf{Fungsi test} & \textbf{Kasus}\\
+\midrule
+Denda BVA & 1 & 6\\
+Hari terlambat negatif & 1 & 2\\
+Batas untuk jenis anggota valid & 1 & 3\\
+Jenis anggota tidak dikenal & 1 & 2\\
+Pinjam sukses di bawah batas & 1 & 6\\
+Pinjam pada dan di atas batas & 1 & 6\\
+Jumlah pinjaman negatif & 1 & 2\\
+Jenis anggota salah saat pinjam & 1 & 1\\
+Email kosong atau spasi & 1 & 2\\
+Stok habis atau kode buku tidak ada & 1 & 2\\
+Email gagal & 1 & 1\\
+Email timeout & 1 & 1\\
+Peminjaman stok terakhir & 1 & 1\\
+Rollback menjaga commit sebelumnya & 1 & 1\\
+\midrule
+\textbf{Total} & \textbf{14} & \textbf{36}\\
+\bottomrule
+\end{tabularx}
+
+\subsection{Fixture dan mock}
+Fixture \texttt{katalog} menyiapkan B001 berstok 2 dan B002 berstok 0.
+Data awal di-commit sebelum \texttt{yield}. Blok \texttt{finally} menutup
+koneksi setelah test, termasuk ketika assertion gagal. Setiap kasus memperoleh
+database baru sehingga perubahan state terisolasi.
+
+Fixture \texttt{pengirim\_email} membuat mock baru setiap test.
+\texttt{assert\_called\_once\_with} memeriksa alamat, pesan, dan jumlah panggilan.
+\texttt{assert\_not\_called} memastikan validasi gagal tidak memanggil layanan.
+Nilai balik \texttt{False} dan \texttt{side\_effect=TimeoutError} menguji rollback.
+Tidak ada email sungguhan yang dikirim.
+
+\clearpage
+\section{Eksekusi dan hasil coverage}
+Lingkungan lokal: Windows, Python 3.10.11, PyTest 8.4.2, pytest-cov 7.0.0,
+dan coverage.py 7.16.2. Perintah untuk test dan pengukuran cabang:
+\begin{lstlisting}
+.\.venv\Scripts\python.exe -m pytest -v
+.\.venv\Scripts\python.exe -m pytest -q --cov=perpustakaan --cov-branch --cov-report=term-missing --cov-report=html
+\end{lstlisting}
+Hasil aktual suite: \textbf{36 passed}, tanpa test gagal, skip, atau xfail.
+Ringkasan pengukuran paket \texttt{perpustakaan}:
+\begin{center}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+\rowcolor{lightblue}\textbf{Modul} & \textbf{Stmts} & \textbf{Miss} & \textbf{Branch} & \textbf{BrPart} & \textbf{Cover}\\
+\midrule
+\texttt{\_\_init\_\_.py} & 0 & 0 & 0 & 0 & 100\%\\
+\texttt{layanan.py} & 36 & 0 & 20 & 0 & 100\%\\
+\midrule
+\textbf{Total} & \textbf{36} & \textbf{0} & \textbf{20} & \textbf{0} & \textbf{100\%}\\
+\bottomrule
+\end{tabular}
+\end{center}
+Statement coverage adalah $36/36=100\%$, dan branch coverage adalah
+$20/20=100\%$. Bukti output lengkap tersedia pada \path{laporan/hasil-pytest.txt},
+data mesin pada \path{laporan/coverage.json}, dan laporan HTML pada
+\path{laporan/html/index.html}.
+
+\subsection{Analisis cabang yang belum tercakup}
+\begin{tabularx}{\linewidth}{@{}p{3.9cm}Yr@{}}
+\toprule
+\rowcolor{lightblue}\textbf{Fungsi} & \textbf{Keputusan yang diuji} & \textbf{Cabang}\\
+\midrule
+\texttt{hitung\_denda} & Negatif/tidak; maksimal 7 hari/lebih dari 7 & 4\\
+\texttt{batas\_peminjaman} & Cocok/tidak untuk tiga jenis anggota & 6\\
+\texttt{pinjam\_buku} & Jumlah negatif; mencapai batas; email kosong; stok tersedia; pengiriman email berhasil & 10\\
+\bottomrule
+\end{tabularx}
+
+\textbf{Tidak ada cabang Python yang belum tercakup} pada eksekusi ini.
+Nilai \texttt{missing\_branches} dan \texttt{missing\_lines} pada JSON kosong.
+Pengujian juga memeriksa stok sesudah exception, bukan hanya jenis exception:
+stok kembali jika email gagal, dan rollback tidak menghapus transaksi sebelumnya.
+
+Coverage 100\% berlaku untuk kode paket yang diuji. Hal ini tidak menjamin semua
+kombinasi input atau layanan eksternal benar. Pemeriksaan tipe input antarmuka,
+format email lengkap, gangguan database, dan peminjaman serentak berada di luar
+ruang lingkup. Jumlah pinjaman aktif belum disimpan per anggota. Adapter email
+nyata memerlukan integration test; rollback SQLite tidak dapat menarik kembali
+email yang sudah dikirim.
+
+\subsection{Dokumentasi dan reproduksi}
+Sebelas gambar berikut mendokumentasikan struktur, kode, fixture, BVA, exception,
+mock, hasil test, dan coverage. Screenshot diambil manual dari editor, terminal,
+dan browser. Setelah menyimpan PNG di \texttt{images/}, jalankan:
+\begin{lstlisting}
+powershell -ExecutionPolicy Bypass -File scripts\kompilasi_laporan.ps1
+\end{lstlisting}
+Perintah dijalankan dari root repo. PDF dan sumber LaTeX merupakan satu laporan
+yang sama; PDF dihasilkan dari \texttt{main.tex} ini.
+
+{\small\textbf{Referensi:}
+Materi kuliah \textit{Sesi 9 - Unit Testing (PyTest)}, bagian Tugas Sesi 9, hlm. 10;
+\href{https://docs.pytest.org/en/stable/how-to/fixtures.html}{dokumentasi fixture PyTest};
+\href{https://pytest-cov.readthedocs.io/en/latest/reporting.html}{dokumentasi pytest-cov};
+\href{https://docs.python.org/3/library/unittest.mock.html}{dokumentasi unittest.mock}.}
+
+\bukti{01}{01-struktur.png}{Struktur proyek Sesi 9}
+{Struktur menunjukkan paket \texttt{perpustakaan}, folder \texttt{tests},
+konfigurasi pengujian, dependensi, dan laporan di root proyek.}
+
+\bukti{02}{02-fungsi-denda-batas.png}{Fungsi denda dan batas peminjaman}
+{Fungsi \texttt{hitung\_denda} mempunyai validasi nilai negatif serta tarif bertingkat.
+Fungsi \texttt{batas\_peminjaman} membedakan tiga jenis anggota dan menolak jenis lain.}
+
+\bukti{03}{03-fungsi-pinjam.png}{Fungsi proses peminjaman buku}
+{Validasi mendahului perubahan stok. Transaksi SQLite membatasi peminjaman pada stok
+positif dan mengembalikan stok bila pengiriman email gagal atau melempar exception.}
+
+\bukti{04}{04-fixture-cleanup.png}{Fixture yield dan cleanup katalog}
+{Fixture membuat database untuk setiap test, menyimpan data awal sebelum \texttt{yield},
+dan menutup koneksi lewat \texttt{finally}. Fixture lain menyediakan mock pengirim email.}
+
+\bukti{05}{05-parametrize-bva.png}{Parametrize berdasarkan nilai batas}
+{Data 0, 1, 6, 7, 8, dan 9 hari menguji batas bawah dan perpindahan tarif setelah hari
+ketujuh. Expected value eksplisit dibandingkan dengan hasil fungsi.}
+
+\bukti{06}{06-test-negatif.png}{Pengujian exception dengan pytest.raises}
+{Test hari negatif dan jenis anggota tidak dikenal memeriksa \texttt{ValueError}
+beserta pesannya. Test negatif dinyatakan lulus ketika exception yang diharapkan terjadi.}
+
+\bukti{07}{07-mock-email.png}{Mock email dan verifikasi interaksi}
+{Peminjaman berhasil memeriksa pesan hasil, pengurangan stok, dan satu panggilan
+pengirim email dengan alamat serta isi pesan yang tepat.}
+
+\bukti{08}{08-mock-gagal-timeout.png}{Mock gagal dan timeout}
+{Nilai balik \texttt{False} dan exception \texttt{TimeoutError} mensimulasikan
+kegagalan dependensi. Assertion memastikan stok dipulihkan dan interaksi tercatat.}
+
+\bukti{09}{09-hasil-pytest.png}{Hasil eksekusi suite PyTest}
+{Output verbose menampilkan kasus-kasus yang dijalankan dan ringkasan 36 test lulus.
+Parametrization memperluas 14 fungsi test menjadi 36 kasus.}
+
+\bukti{10}{10-coverage-terminal.png}{Statement dan branch coverage di terminal}
+{Tabel menampilkan 36 statement dan 20 keluaran cabang, tanpa statement terlewat
+atau cabang parsial. Nilai coverage paket mencapai 100 persen.}
+
+\bukti{11}{11-coverage-html.png}{Laporan coverage HTML}
+{Laporan browser menampilkan ringkasan coverage paket. Baris modul dapat dibuka
+untuk melihat baris kode yang dieksekusi dan rincian cakupannya.}
+
+\end{document}

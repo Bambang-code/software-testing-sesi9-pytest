@@ -1,0 +1,59 @@
+============================= test session starts =============================
+platform win32 -- Python 3.10.11, pytest-8.4.2, pluggy-1.7.0 -- C:\asemester5\asoftest\sesi9\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\asemester5\asoftest\sesi9
+configfile: pytest.ini
+testpaths: tests
+plugins: cov-7.0.0
+collecting ... collected 36 items
+
+tests/test_layanan.py::test_hitung_denda_bva[tanpa-terlambat] PASSED     [  2%]
+tests/test_layanan.py::test_hitung_denda_bva[satu-hari] PASSED           [  5%]
+tests/test_layanan.py::test_hitung_denda_bva[batas-minus-1] PASSED       [  8%]
+tests/test_layanan.py::test_hitung_denda_bva[batas-7] PASSED             [ 11%]
+tests/test_layanan.py::test_hitung_denda_bva[batas-plus-1] PASSED        [ 13%]
+tests/test_layanan.py::test_hitung_denda_bva[sembilan-hari] PASSED       [ 16%]
+tests/test_layanan.py::test_hari_terlambat_negatif_ditolak[-1] PASSED    [ 19%]
+tests/test_layanan.py::test_hari_terlambat_negatif_ditolak[-7] PASSED    [ 22%]
+tests/test_layanan.py::test_batas_peminjaman_per_jenis[mahasiswa-3] PASSED [ 25%]
+tests/test_layanan.py::test_batas_peminjaman_per_jenis[dosen-5] PASSED   [ 27%]
+tests/test_layanan.py::test_batas_peminjaman_per_jenis[umum-2] PASSED    [ 30%]
+tests/test_layanan.py::test_jenis_anggota_tidak_dikenal_ditolak[alumni] PASSED [ 33%]
+tests/test_layanan.py::test_jenis_anggota_tidak_dikenal_ditolak[] PASSED [ 36%]
+tests/test_layanan.py::test_pinjam_sukses_di_bawah_batas[mahasiswa-0] PASSED [ 38%]
+tests/test_layanan.py::test_pinjam_sukses_di_bawah_batas[mahasiswa-2] PASSED [ 41%]
+tests/test_layanan.py::test_pinjam_sukses_di_bawah_batas[dosen-0] PASSED [ 44%]
+tests/test_layanan.py::test_pinjam_sukses_di_bawah_batas[dosen-4] PASSED [ 47%]
+tests/test_layanan.py::test_pinjam_sukses_di_bawah_batas[umum-0] PASSED  [ 50%]
+tests/test_layanan.py::test_pinjam_sukses_di_bawah_batas[umum-1] PASSED  [ 52%]
+tests/test_layanan.py::test_pinjam_pada_dan_di_atas_batas_ditolak[mahasiswa-3] PASSED [ 55%]
+tests/test_layanan.py::test_pinjam_pada_dan_di_atas_batas_ditolak[mahasiswa-4] PASSED [ 58%]
+tests/test_layanan.py::test_pinjam_pada_dan_di_atas_batas_ditolak[dosen-5] PASSED [ 61%]
+tests/test_layanan.py::test_pinjam_pada_dan_di_atas_batas_ditolak[dosen-6] PASSED [ 63%]
+tests/test_layanan.py::test_pinjam_pada_dan_di_atas_batas_ditolak[umum-2] PASSED [ 66%]
+tests/test_layanan.py::test_pinjam_pada_dan_di_atas_batas_ditolak[umum-3] PASSED [ 69%]
+tests/test_layanan.py::test_jumlah_pinjaman_negatif_ditolak[-1] PASSED   [ 72%]
+tests/test_layanan.py::test_jumlah_pinjaman_negatif_ditolak[-2] PASSED   [ 75%]
+tests/test_layanan.py::test_pinjam_dengan_jenis_anggota_tidak_dikenal PASSED [ 77%]
+tests/test_layanan.py::test_email_kosong_ditolak[] PASSED                [ 80%]
+tests/test_layanan.py::test_email_kosong_ditolak[   ] PASSED             [ 83%]
+tests/test_layanan.py::test_buku_tidak_tersedia_ditolak[stok-habis] PASSED [ 86%]
+tests/test_layanan.py::test_buku_tidak_tersedia_ditolak[kode-tidak-ada] PASSED [ 88%]
+tests/test_layanan.py::test_email_gagal_mengembalikan_stok PASSED        [ 91%]
+tests/test_layanan.py::test_email_timeout_mengembalikan_stok PASSED      [ 94%]
+tests/test_layanan.py::test_stok_terakhir_habis_setelah_dipinjam PASSED  [ 97%]
+tests/test_layanan.py::test_rollback_tidak_membatalkan_peminjaman_sebelumnya PASSED [100%]
+
+=============================== tests coverage ================================
+______________ coverage: platform win32, python 3.10.11-final-0 _______________
+
+Name                       Stmts   Miss Branch BrPart    Cover   Missing
+------------------------------------------------------------------------
+perpustakaan\__init__.py       0      0      0      0  100.00%
+perpustakaan\layanan.py       36      0     20      0  100.00%
+------------------------------------------------------------------------
+TOTAL                         36      0     20      0  100.00%
+Coverage HTML written to dir laporan/html
+Coverage JSON written to file laporan/coverage.json
+Required test coverage of 100.0% reached. Total coverage: 100.00%
+============================= 36 passed in 0.31s ==============================
