@@ -1,8 +1,10 @@
 # Panduan 11 Screenshot Hasil Test - Tugas Sesi 9
 
-Ambil **11 gambar PNG hasil eksekusi di terminal**: delapan hasil fungsi test,
-satu hasil setup/teardown fixture, satu hasil test mock, dan satu hasil test
-lengkap beserta coverage.
+Kesebelas screenshot manual dari pengguna sudah disertakan secara utuh tanpa
+crop pada laporan PDF final. PNG asli berada di `laporan/latex/images/`, bersama
+sumber LaTeX yang merujuk gambar tersebut. Panduan ini menyediakan perintah untuk
+mengulangi **11 hasil eksekusi di terminal**: delapan hasil fungsi test, satu hasil
+setup/teardown fixture, satu hasil test mock, dan satu hasil suite beserta coverage.
 
 Minimal delapan test sudah dapat mencakup test BVA dengan `parametrize` serta
 minimal dua test negatif menggunakan `pytest.raises`. Pada urutan ini, gambar 01
@@ -173,12 +175,12 @@ agar tabel dan ringkasan muat dalam satu screenshot. Lebarkan terminal jika
 kolom terpotong. Ini hasil suite lengkap, termasuk test yang tidak diambil
 screenshotnya satu per satu.
 
-## Membuat PDF final
+## PDF final dan kompilasi ulang
 
-Periksa ada tepat 11 file PNG sesuai nama di atas pada folder
-`C:\asemester5\asoftest\sesi9\laporan\latex\images`. Buka setiap gambar dan
-pastikan teks hasil eksekusi terbaca. **PDF yang tersedia masih draf sampai
-seluruh screenshot asli dimasukkan dan laporan dikompilasi ulang.**
+PDF final sudah memuat tepat 11 screenshot hasil eksekusi asli dari folder
+`C:\asemester5\asoftest\sesi9\laporan\latex\images`. Setiap gambar dipertahankan
+utuh tanpa crop. Nama file sesuai urutan di atas agar sumber LaTeX dapat
+dikompilasi ulang dengan semua bukti yang sama.
 
 Dari root proyek, jalankan:
 
@@ -187,10 +189,14 @@ powershell -ExecutionPolicy Bypass -File scripts\kompilasi_laporan.ps1
 ```
 
 Hasilnya `laporan\latex\main.pdf`, dengan sumber `laporan\latex\main.tex`.
-Script menyebutkan gambar yang belum ada dan menolak kompilasi final jika belum
-lengkap. Opsi `-Draf` hanya untuk pratinjau dengan penanda gambar kosong.
+Jika gambar pada revisi berikutnya belum lengkap, script menyebutkan gambar
+yang belum ada dan menolak kompilasi final. Opsi `-Draf` bersifat opsional untuk
+pratinjau revisi yang masih memiliki gambar kosong.
 
 Kumpulkan **11 gambar hasil eksekusi asli** dan **satu laporan dalam format PDF
 serta LaTeX**. Sertakan folder `images` bersama sumber LaTeX agar laporan dapat
 dikompilasi kembali. Compiler portabel sudah tersedia di komputer ini; jika
 memindahkan proyek, folder `laporan\latex` juga dapat diunggah ke Overleaf.
+
+Paket `output\pengumpulan-sesi9.zip` menggabungkan `main.pdf`, `main.tex`, dan
+folder `images` berisi 11 PNG asli, sehingga sumber laporan tetap portabel.

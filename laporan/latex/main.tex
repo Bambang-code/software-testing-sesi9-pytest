@@ -6,6 +6,7 @@
 \usepackage{booktabs,tabularx,array}
 \usepackage{enumitem}
 \usepackage{graphicx,caption}
+\usepackage{pdflscape}
 \usepackage{fancyhdr}
 \usepackage{listings}
 \usepackage[hidelinks]{hyperref}
@@ -47,7 +48,7 @@
   {\Large\bfseries\color{navy}Bukti #1: #3}\par\medskip
   \IfFileExists{images/#2}{%
     \begin{center}
-    \includegraphics[width=\linewidth,height=0.72\textheight,keepaspectratio]{images/#2}
+    \includegraphics[width=\linewidth,height=0.80\textheight,keepaspectratio]{images/#2}
     \end{center}
   }{%
     \begin{center}
@@ -62,7 +63,8 @@
     \end{center}
   }%
   \captionof{figure}{#3}\label{bukti:#1}
-  \medskip{\raggedright\textbf{Penjelasan.} #4\par}
+  \medskip{\raggedright\small\textbf{Penjelasan.} #4\par}
+  \smallskip\hfill{\small Halaman \thepage}
 }
 \begin{document}
 \begin{center}
@@ -229,12 +231,9 @@ email yang sudah dikirim.
 \subsection{Dokumentasi dan reproduksi}
 Seluruh gambar adalah hasil eksekusi terminal. Gambar 1--8 menampilkan hasil
 delapan fungsi test, termasuk BVA dan dua test negatif; Gambar 9 setup/teardown
-fixture; Gambar 10 test mock; Gambar 11 coverage. Simpan PNG di \texttt{images/}, lalu:
-\begin{lstlisting}
-powershell -ExecutionPolicy Bypass -File scripts\kompilasi_laporan.ps1
-\end{lstlisting}
-Perintah dijalankan dari root repo. PDF dan sumber LaTeX merupakan satu laporan
-yang sama; PDF dihasilkan dari \texttt{main.tex} ini.
+fixture; Gambar 10 test mock; Gambar 11 coverage. Screenshot asli ditampilkan
+utuh pada halaman landscape. PDF dihasilkan dari \texttt{main.tex} beserta
+folder \texttt{images/}, yang dapat dikompilasi kembali sebagai satu proyek LaTeX.
 
 {\small\textbf{Referensi:}
 Materi kuliah \textit{Sesi 9 - Unit Testing (PyTest)}, bagian Tugas Sesi 9, hlm. 10;
@@ -242,6 +241,9 @@ Materi kuliah \textit{Sesi 9 - Unit Testing (PyTest)}, bagian Tugas Sesi 9, hlm.
 \href{https://pytest-cov.readthedocs.io/en/latest/reporting.html}{dokumentasi pytest-cov};
 \href{https://docs.python.org/3/library/unittest.mock.html}{dokumentasi unittest.mock}.}
 
+\newgeometry{margin=1.5cm}
+\begin{landscape}
+\pagestyle{empty}
 \bukti{01}{01-test-bva-denda.png}{Hasil test 1: BVA denda}
 {Enam kasus parameter ditampilkan dengan status \texttt{PASSED} dan ringkasan
 \texttt{6 passed}. Kasus memeriksa denda pada 0, 1, 6, 7, 8, dan 9 hari.}
@@ -288,4 +290,5 @@ output normal PyTest tidak mencetak argumen mock secara otomatis.}
 {Output eksekusi menunjukkan 36 kasus lulus, 36 statement dan 20 cabang tercakup,
 serta coverage 100 persen. Delapan gambar test adalah pilihan bukti dari suite lengkap.}
 
+\end{landscape}
 \end{document}

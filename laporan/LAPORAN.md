@@ -134,6 +134,12 @@ Bukti yang disertakan:
 - [Data JSON coverage](coverage.json), termasuk `missing_lines` dan `missing_branches`
 - [Laporan HTML](html/index.html), dibuka secara lokal setelah clone/download
 
+[PDF final](latex/main.pdf) dan [sumber LaTeX](latex/main.tex) memuat sebelas
+screenshot hasil eksekusi manual dari pengguna. Seluruh PNG asli dalam
+`latex/images/` disertakan utuh tanpa crop. Paket pengumpulan pada
+`output/pengumpulan-sesi9.zip` menyertakan PDF, LaTeX, dan folder gambar yang
+diperlukan untuk kompilasi ulang.
+
 Angka di atas berasal dari eksekusi lokal. Template `contoh/workflow-pytest.yml`
 disediakan untuk pengujian pada Python 3.10 dan 3.12, dan belum diaktifkan sebagai
 workflow repo.

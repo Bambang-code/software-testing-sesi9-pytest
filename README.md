@@ -89,17 +89,20 @@ workflow repo. Hasil eksekusi lokal dan batas pengujian dibahas di laporan.
 
 ## Dokumen pengumpulan dan screenshot manual
 
-Ikuti [panduan 11 screenshot](laporan/PANDUAN_SCREENSHOT.md). Simpan gambar asli
-di `laporan/latex/images/` dengan nama yang tercantum pada panduan.
-Semua screenshot diambil dari hasil eksekusi di terminal: 8 hasil fungsi test
+Kesebelas screenshot manual dari pengguna sudah disertakan secara utuh di
+`laporan/latex/images/` dan dimasukkan ke [PDF final](laporan/latex/main.pdf).
+Seluruh PNG asli dipertahankan tanpa crop.
+Semua screenshot berasal dari hasil eksekusi di terminal: 8 hasil fungsi test
 (termasuk BVA dan minimal 2 test negatif), 1 hasil setup/teardown fixture,
 1 hasil pengujian mock, dan 1 hasil suite lengkap beserta coverage.
-Panduan menyediakan perintah untuk setiap gambar. Test BVA dan test negatif
-termasuk dalam minimal 8 test.
-[Sumber LaTeX](laporan/latex/main.tex) menggabungkan analisis dan sebelas gambar.
-PDF draf menampilkan penanda DRAF selama gambar belum lengkap.
+[Panduan screenshot](laporan/PANDUAN_SCREENSHOT.md) menyediakan perintah untuk
+mengulangi setiap hasil. Test BVA dan test negatif termasuk dalam minimal 8 test.
+[Sumber LaTeX](laporan/latex/main.tex) menggabungkan analisis dan sebelas gambar;
+sertakan folder `images/` saat memindahkan sumbernya.
+[Paket pengumpulan](output/pengumpulan-sesi9.zip) berisi PDF, sumber LaTeX,
+dan sebelas gambar asli dalam satu arsip.
 
-Setelah seluruh gambar tersimpan, jalankan dari root repo:
+Untuk mengompilasi ulang laporan, jalankan dari root repo:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts\kompilasi_laporan.ps1
@@ -109,7 +112,8 @@ PDF hasil kompilasi adalah `laporan/latex/main.pdf`. Script memerlukan compiler
 Tectonic portabel pada `.tools/tectonic/tectonic.exe` yang tersedia di komputer
 kerja ini; compiler tidak dimasukkan ke Git. Pada komputer lain, folder
 `laporan/latex` dapat dikompilasi dengan Tectonic/LaTeX atau diunggah ke Overleaf.
-Opsi `-Draf` pada script mengizinkan pratinjau saat gambar belum lengkap.
+Opsi `-Draf` hanya diperlukan untuk pratinjau jika gambar pada pengembangan
+berikutnya belum lengkap.
 
 ## Referensi
 
