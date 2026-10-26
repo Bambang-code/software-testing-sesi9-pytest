@@ -25,17 +25,17 @@
   frame=single,backgroundcolor=\color{lightblue},showstringspaces=false}
 \newcounter{buktitersedia}
 \newcommand{\cekgambar}[1]{\IfFileExists{images/#1}{\stepcounter{buktitersedia}}{}}
-\cekgambar{01-struktur.png}
-\cekgambar{02-fungsi-denda-batas.png}
-\cekgambar{03-fungsi-pinjam.png}
-\cekgambar{04-fixture-cleanup.png}
-\cekgambar{05-parametrize-bva.png}
-\cekgambar{06-test-negatif.png}
-\cekgambar{07-mock-email.png}
-\cekgambar{08-mock-gagal-timeout.png}
-\cekgambar{09-hasil-pytest.png}
-\cekgambar{10-coverage-terminal.png}
-\cekgambar{11-coverage-html.png}
+\cekgambar{01-test-bva-denda.png}
+\cekgambar{02-test-batas-anggota.png}
+\cekgambar{03-test-pinjam-sukses.png}
+\cekgambar{04-test-negatif-hari.png}
+\cekgambar{05-test-negatif-anggota.png}
+\cekgambar{06-test-negatif-jumlah.png}
+\cekgambar{07-test-batas-pinjaman.png}
+\cekgambar{08-test-buku-tidak-tersedia.png}
+\cekgambar{09-fixture-yield-cleanup.png}
+\cekgambar{10-mock-gagal-timeout.png}
+\cekgambar{11-hasil-test-coverage.png}
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[L]{\small\color{muted}Software Testing | Sesi 9}
@@ -227,9 +227,9 @@ nyata memerlukan integration test; rollback SQLite tidak dapat menarik kembali
 email yang sudah dikirim.
 
 \subsection{Dokumentasi dan reproduksi}
-Sebelas gambar berikut mendokumentasikan struktur, kode, fixture, BVA, exception,
-mock, hasil test, dan coverage. Screenshot diambil manual dari editor, terminal,
-dan browser. Setelah menyimpan PNG di \texttt{images/}, jalankan:
+Gambar 1--8 membuktikan delapan fungsi test, termasuk BVA dan dua test negatif.
+Gambar 9 menunjukkan fixture dengan cleanup, Gambar 10 mock, dan Gambar 11
+hasil eksekusi beserta coverage. Setelah menyimpan PNG di \texttt{images/}, jalankan:
 \begin{lstlisting}
 powershell -ExecutionPolicy Bypass -File scripts\kompilasi_laporan.ps1
 \end{lstlisting}
@@ -242,48 +242,48 @@ Materi kuliah \textit{Sesi 9 - Unit Testing (PyTest)}, bagian Tugas Sesi 9, hlm.
 \href{https://pytest-cov.readthedocs.io/en/latest/reporting.html}{dokumentasi pytest-cov};
 \href{https://docs.python.org/3/library/unittest.mock.html}{dokumentasi unittest.mock}.}
 
-\bukti{01}{01-struktur.png}{Struktur proyek Sesi 9}
-{Struktur menunjukkan paket \texttt{perpustakaan}, folder \texttt{tests},
-konfigurasi pengujian, dependensi, dan laporan di root proyek.}
+\bukti{01}{01-test-bva-denda.png}{Test 1: parametrize BVA denda}
+{Test menggunakan data 0, 1, 6, 7, 8, dan 9 hari untuk memeriksa batas bawah serta
+perubahan tarif. Test ini termasuk dalam delapan test dan sekaligus memenuhi syarat BVA.}
 
-\bukti{02}{02-fungsi-denda-batas.png}{Fungsi denda dan batas peminjaman}
-{Fungsi \texttt{hitung\_denda} mempunyai validasi nilai negatif serta tarif bertingkat.
-Fungsi \texttt{batas\_peminjaman} membedakan tiga jenis anggota dan menolak jenis lain.}
+\bukti{02}{02-test-batas-anggota.png}{Test 2: batas anggota valid}
+{Test memeriksa batas peminjaman mahasiswa, dosen, dan umum dengan expected value
+3, 5, dan 2. Tiga kombinasi dijalankan melalui parametrization.}
 
-\bukti{03}{03-fungsi-pinjam.png}{Fungsi proses peminjaman buku}
-{Validasi mendahului perubahan stok. Transaksi SQLite membatasi peminjaman pada stok
-positif dan mengembalikan stok bila pengiriman email gagal atau melempar exception.}
+\bukti{03}{03-test-pinjam-sukses.png}{Test 3: peminjaman berhasil}
+{Test memeriksa pesan hasil, stok yang berkurang, dan satu panggilan mock email
+dengan alamat serta isi pesan yang tepat. Data meliputi batas pinjaman dikurangi satu.}
 
-\bukti{04}{04-fixture-cleanup.png}{Fixture yield dan cleanup katalog}
-{Fixture membuat database untuk setiap test, menyimpan data awal sebelum \texttt{yield},
-dan menutup koneksi lewat \texttt{finally}. Fixture lain menyediakan mock pengirim email.}
+\bukti{04}{04-test-negatif-hari.png}{Test 4: hari negatif ditolak}
+{Test negatif pertama memakai \texttt{pytest.raises(ValueError)} untuk hari -1 dan -7,
+serta memeriksa pesan exception. Skenario negatif tetap dinyatakan lulus bila penolakan benar.}
 
-\bukti{05}{05-parametrize-bva.png}{Parametrize berdasarkan nilai batas}
-{Data 0, 1, 6, 7, 8, dan 9 hari menguji batas bawah dan perpindahan tarif setelah hari
-ketujuh. Expected value eksplisit dibandingkan dengan hasil fungsi.}
+\bukti{05}{05-test-negatif-anggota.png}{Test 5: anggota tidak dikenal}
+{Test negatif kedua memeriksa \texttt{ValueError} untuk anggota alumni dan string
+kosong. Syarat minimal dua test raises telah dipenuhi oleh Gambar 4 dan 5.}
 
-\bukti{06}{06-test-negatif.png}{Pengujian exception dengan pytest.raises}
-{Test hari negatif dan jenis anggota tidak dikenal memeriksa \texttt{ValueError}
-beserta pesannya. Test negatif dinyatakan lulus ketika exception yang diharapkan terjadi.}
+\bukti{06}{06-test-negatif-jumlah.png}{Test 6: jumlah pinjaman negatif}
+{Jumlah pinjaman negatif ditolak. Assertion memeriksa jenis dan pesan exception,
+stok yang tetap, serta mock email yang tidak dipanggil.}
 
-\bukti{07}{07-mock-email.png}{Mock email dan verifikasi interaksi}
-{Peminjaman berhasil memeriksa pesan hasil, pengurangan stok, dan satu panggilan
-pengirim email dengan alamat serta isi pesan yang tepat.}
+\bukti{07}{07-test-batas-pinjaman.png}{Test 7: batas peminjaman tercapai}
+{Test menolak pinjaman tepat pada batas dan satu di atas batas untuk semua jenis
+anggota. Stok tetap tersedia dan layanan email tidak dipanggil.}
 
-\bukti{08}{08-mock-gagal-timeout.png}{Mock gagal dan timeout}
-{Nilai balik \texttt{False} dan exception \texttt{TimeoutError} mensimulasikan
-kegagalan dependensi. Assertion memastikan stok dipulihkan dan interaksi tercatat.}
+\bukti{08}{08-test-buku-tidak-tersedia.png}{Test 8: buku tidak tersedia}
+{Stok nol dan kode buku yang tidak ditemukan sama-sama menghasilkan penolakan.
+Test memeriksa exception, stok yang tidak berubah, dan tidak adanya panggilan email.}
 
-\bukti{09}{09-hasil-pytest.png}{Hasil eksekusi suite PyTest}
-{Output verbose menampilkan kasus-kasus yang dijalankan dan ringkasan 36 test lulus.
-Parametrization memperluas 14 fungsi test menjadi 36 kasus.}
+\bukti{09}{09-fixture-yield-cleanup.png}{Fixture yield dan cleanup}
+{Fixture menyiapkan katalog terisolasi, melakukan commit data awal sebelum
+\texttt{yield}, dan menutup koneksi lewat \texttt{finally} setelah test selesai.}
 
-\bukti{10}{10-coverage-terminal.png}{Statement dan branch coverage di terminal}
-{Tabel menampilkan 36 statement dan 20 keluaran cabang, tanpa statement terlewat
-atau cabang parsial. Nilai coverage paket mencapai 100 persen.}
+\bukti{10}{10-mock-gagal-timeout.png}{Mock email gagal dan timeout}
+{\texttt{return\_value=False} dan \texttt{side\_effect=TimeoutError} mengganti
+respons layanan email. Test memeriksa rollback stok dan argumen satu panggilan mock.}
 
-\bukti{11}{11-coverage-html.png}{Laporan coverage HTML}
-{Laporan browser menampilkan ringkasan coverage paket. Baris modul dapat dibuka
-untuk melihat baris kode yang dieksekusi dan rincian cakupannya.}
+\bukti{11}{11-hasil-test-coverage.png}{Hasil test dan branch coverage}
+{Output eksekusi menunjukkan 36 kasus lulus, 36 statement dan 20 cabang tercakup,
+serta coverage 100 persen. Delapan gambar test adalah pilihan bukti dari suite lengkap.}
 
 \end{document}
