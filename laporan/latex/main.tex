@@ -7,6 +7,7 @@
 \usepackage{enumitem}
 \usepackage{graphicx,caption}
 \usepackage{pdflscape}
+\usepackage{tikz}
 \usepackage{fancyhdr}
 \usepackage{listings}
 \usepackage[hidelinks]{hyperref}
@@ -67,6 +68,40 @@
   \smallskip\hfill{\small Halaman \thepage}
 }
 \begin{document}
+\hypersetup{pageanchor=false}
+\begin{titlepage}
+\thispagestyle{empty}
+\fontfamily{ptm}\selectfont
+\begin{tikzpicture}[remember picture,overlay]
+\node[anchor=north,align=center,font=\bfseries\fontsize{12}{16}\selectfont]
+  at ([yshift=-3.1cm]current page.north) {LAPORAN TUGAS SESI 9};
+\node[anchor=north,align=center,text width=17cm,
+  font=\bfseries\fontsize{12}{18}\selectfont]
+  at ([yshift=-4.6cm]current page.north)
+  {UNIT TESTING DENGAN PYTEST\\
+   SISTEM PEMINJAMAN BUKU PERPUSTAKAAN};
+\node[anchor=north,inner sep=0pt]
+  at ([yshift=-6.5cm]current page.north)
+  {\includegraphics[width=8.7cm]{assets/logo-ukwms.png}};
+\node[anchor=north,align=center,font=\bfseries\fontsize{12}{16}\selectfont]
+  at ([yshift=-17.1cm]current page.north) {PENYUSUN};
+\node[anchor=north,align=center,font=\fontsize{12}{16}\selectfont]
+  at ([yshift=-18.0cm]current page.north) {
+  \begin{tabular}{@{}l@{\hspace{1.5cm}}l@{}}
+  Bambang Herlambang & 5803024019
+  \end{tabular}};
+\node[anchor=north,align=center,font=\bfseries\fontsize{12}{22}\selectfont]
+  at ([yshift=-22.8cm]current page.north)
+  {PROGRAM STUDI INFORMATIKA\\
+   FAKULTAS TEKNIK\\
+   UNIVERSITAS KATOLIK WIDYA MANDALA\\
+   SURABAYA\\
+   2026};
+\end{tikzpicture}
+\null
+\end{titlepage}
+\setcounter{page}{1}
+\hypersetup{pageanchor=true}
 \begin{center}
 {\LARGE\bfseries\color{navy}Laporan Tugas Sesi 9}\par
 {\large Unit Testing dengan PyTest}\par

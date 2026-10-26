@@ -194,9 +194,12 @@ yang belum ada dan menolak kompilasi final. Opsi `-Draf` bersifat opsional untuk
 pratinjau revisi yang masih memiliki gambar kosong.
 
 Kumpulkan **11 gambar hasil eksekusi asli** dan **satu laporan dalam format PDF
-serta LaTeX**. Sertakan folder `images` bersama sumber LaTeX agar laporan dapat
-dikompilasi kembali. Compiler portabel sudah tersedia di komputer ini; jika
+serta LaTeX**. Sertakan folder `images/` dan `assets/` bersama sumber LaTeX agar
+laporan dan logo pada cover dapat dikompilasi kembali. Logo universitas berada
+di `assets/logo-ukwms.png`, terpisah dari sebelas screenshot hasil test.
+Compiler portabel sudah tersedia di komputer ini; jika
 memindahkan proyek, folder `laporan\latex` juga dapat diunggah ke Overleaf.
 
-Paket `output\pengumpulan-sesi9.zip` menggabungkan `main.pdf`, `main.tex`, dan
-folder `images` berisi 11 PNG asli, sehingga sumber laporan tetap portabel.
+Paket `output\pengumpulan-sesi9.zip` menggabungkan `main.pdf`, `main.tex`, folder
+`images/` berisi 11 PNG asli, serta `assets/` berisi logo cover. Isi paket lengkap
+berjumlah 14 file, sehingga sumber laporan tetap portabel.

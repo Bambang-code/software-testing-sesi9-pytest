@@ -97,10 +97,11 @@ Semua screenshot berasal dari hasil eksekusi di terminal: 8 hasil fungsi test
 1 hasil pengujian mock, dan 1 hasil suite lengkap beserta coverage.
 [Panduan screenshot](laporan/PANDUAN_SCREENSHOT.md) menyediakan perintah untuk
 mengulangi setiap hasil. Test BVA dan test negatif termasuk dalam minimal 8 test.
-[Sumber LaTeX](laporan/latex/main.tex) menggabungkan analisis dan sebelas gambar;
-sertakan folder `images/` saat memindahkan sumbernya.
+[Sumber LaTeX](laporan/latex/main.tex) menggabungkan cover, analisis, dan sebelas
+gambar. Cover memuat logo universitas pada `assets/logo-ukwms.png`.
+Sertakan folder `images/` dan `assets/` saat memindahkan sumbernya.
 [Paket pengumpulan](output/pengumpulan-sesi9.zip) berisi PDF, sumber LaTeX,
-dan sebelas gambar asli dalam satu arsip.
+sebelas screenshot asli, dan aset logo cover dalam satu arsip.
 
 Untuk mengompilasi ulang laporan, jalankan dari root repo:
 
