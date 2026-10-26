@@ -180,7 +180,8 @@ screenshotnya satu per satu.
 PDF final sudah memuat tepat 11 screenshot hasil eksekusi asli dari folder
 `C:\asemester5\asoftest\sesi9\laporan\latex\images`. Setiap gambar dipertahankan
 utuh tanpa crop. Nama file sesuai urutan di atas agar sumber LaTeX dapat
-dikompilasi ulang dengan semua bukti yang sama.
+dikompilasi ulang dengan semua bukti yang sama. Seluruh halaman menggunakan
+A4 portrait (210 x 297 mm), dengan screenshot utuh yang diskalakan proporsional.
 
 Dari root proyek, jalankan:
 

@@ -6,7 +6,6 @@
 \usepackage{booktabs,tabularx,array}
 \usepackage{enumitem}
 \usepackage{graphicx,caption}
-\usepackage{pdflscape}
 \usepackage{tikz}
 \usepackage{fancyhdr}
 \usepackage{listings}
@@ -63,7 +62,7 @@
   }%
   \captionof{figure}{#3}\label{bukti:#1}
   \medskip{\raggedright\small\textbf{Penjelasan.} #4\par}
-  \smallskip\hfill{\small Halaman \thepage}
+  \vfill\hfill{\small Halaman \thepage}
 }
 \begin{document}
 \hypersetup{pageanchor=false}
@@ -265,7 +264,7 @@ email yang sudah dikirim.
 Seluruh gambar adalah hasil eksekusi terminal. Gambar 1--8 menampilkan hasil
 delapan fungsi test, termasuk BVA dan dua test negatif; Gambar 9 setup/teardown
 fixture; Gambar 10 test mock; Gambar 11 coverage. Screenshot asli ditampilkan
-utuh pada halaman landscape. PDF dihasilkan dari \texttt{main.tex} beserta
+utuh dan proporsional pada halaman A4 portrait. PDF dihasilkan dari \texttt{main.tex} beserta
 folder \texttt{images/}, yang dapat dikompilasi kembali sebagai satu proyek LaTeX.
 
 {\small\textbf{Referensi:}
@@ -275,7 +274,6 @@ Materi kuliah \textit{Sesi 9 - Unit Testing (PyTest)}, bagian Tugas Sesi 9, hlm.
 \href{https://docs.python.org/3/library/unittest.mock.html}{dokumentasi unittest.mock}.}
 
 \newgeometry{margin=1.5cm}
-\begin{landscape}
 \pagestyle{empty}
 \bukti{01}{01-test-bva-denda.png}{Hasil test 1: BVA denda}
 {Enam kasus parameter ditampilkan dengan status \texttt{PASSED} dan ringkasan
@@ -323,5 +321,4 @@ output normal PyTest tidak mencetak argumen mock secara otomatis.}
 {Output eksekusi menunjukkan 36 kasus lulus, 36 statement dan 20 cabang tercakup,
 serta coverage 100 persen. Delapan gambar test adalah pilihan bukti dari suite lengkap.}
 
-\end{landscape}
 \end{document}

@@ -92,6 +92,8 @@ workflow repo. Hasil eksekusi lokal dan batas pengujian dibahas di laporan.
 Kesebelas screenshot manual dari pengguna sudah disertakan secara utuh di
 `laporan/latex/images/` dan dimasukkan ke [PDF final](laporan/latex/main.pdf).
 Seluruh PNG asli dipertahankan tanpa crop.
+Seluruh halaman laporan memakai A4 portrait (210 x 297 mm). Screenshot
+ditampilkan utuh dengan skala proporsional pada halaman tegak.
 Semua screenshot berasal dari hasil eksekusi di terminal: 8 hasil fungsi test
 (termasuk BVA dan minimal 2 test negatif), 1 hasil setup/teardown fixture,
 1 hasil pengujian mock, dan 1 hasil suite lengkap beserta coverage.
