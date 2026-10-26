@@ -62,7 +62,6 @@
   }%
   \captionof{figure}{#3}\label{bukti:#1}
   \medskip{\raggedright\small\textbf{Penjelasan.} #4\par}
-  \vfill\hfill{\small\thepage}
 }
 \begin{document}
 \hypersetup{pageanchor=false}
@@ -260,8 +259,9 @@ Materi kuliah \textit{Sesi 9 - Unit Testing (PyTest)}, bagian Tugas Sesi 9, hlm.
 \href{https://pytest-cov.readthedocs.io/en/latest/reporting.html}{dokumentasi pytest-cov};
 \href{https://docs.python.org/3/library/unittest.mock.html}{dokumentasi unittest.mock}.}
 
-\newgeometry{margin=1.5cm}
-\pagestyle{empty}
+\newgeometry{left=1.5cm,right=1.5cm,top=1.5cm,bottom=2.3cm}
+\setlength{\headwidth}{\textwidth}
+\pagestyle{fancy}
 \bukti{01}{01-test-bva-denda.png}{Hasil test 1: BVA denda}
 {Enam kasus parameter ditampilkan dengan status \texttt{PASSED} dan ringkasan
 \texttt{6 passed}. Kasus memeriksa denda pada 0, 1, 6, 7, 8, dan 9 hari.}
